@@ -1,0 +1,16 @@
+function doPost(e) {
+  var sheet = SpreadsheetApp.openById('1zj0D-pWkaAC31C2WsCL7UuPWHOgh6zbdqXPXNzNIvOw').getSheetByName('Form Responses 1'); // Replace 'Sheet1' with the name of your specific sheet
+  var data = e.parameter;
+  var timestamp = new Date();
+  var emailAddress = data.emailAddress; // Capture the email address
+  var ipAddress = data.ipAddress; // Capture the IP address
+  
+  // Check if headers are present
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(['Timestamp', 'Email Address', 'Status', 'IP Address']);
+  }
+  
+  // Append the new row
+  sheet.appendRow([timestamp, emailAddress, data.dropdown, ipAddress]);
+  return ContentService.createTextOutput('Success. Your submission has been recorded.');
+}
