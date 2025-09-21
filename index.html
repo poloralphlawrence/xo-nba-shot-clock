@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shot Clock</title>
     <style>
         body {
@@ -72,7 +74,20 @@
             cursor: pointer;
             border-radius: 12px;
             width: 100%;
-            disabled: true; /* Initially disable */
+        }
+        .loading-spinner {
+            display: none;
+            width: 30px;
+            height: 30px;
+            border: 4px solid transparent;
+            border-top: 4px solid #4f6ca4;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         .footer {
             text-align: left;
@@ -104,13 +119,30 @@
             emailInput.addEventListener('input', validateEmail);
             validateEmail(); // Initial check
         };
+
+        // Function to show the loading spinner and refresh page after form submission
+        function handleSubmit(event) {
+            event.preventDefault(); // Prevents default form submission behavior
+
+            const form = event.target;
+            const submitButton = document.querySelector('.submit-button');
+            const loadingSpinner = document.querySelector('.loading-spinner');
+
+            submitButton.style.display = 'none'; // Hide submit button
+            loadingSpinner.style.display = 'block'; // Show loading spinner
+
+            // Simulate form submission delay (you can remove the setTimeout in production)
+            setTimeout(() => {
+                form.submit(); // Submit the form
+            }, 2000); // Adjust delay as needed (for demonstration purposes)
+        }
     </script>
 </head>
 <body>
     <div class="form-container">
         <h1>XO - NBA Shot Clock</h1>
         <h5>Staffing is very important, and every minute counts in meeting our daily targets. Please make sure to adhere to your schedules. Thank you!</h5>
-        <form id="myForm" action="https://script.google.com/macros/s/AKfycby5RAy8n11Z840EY9eGi3l9mtAwW0I9Lspy_j142ggmyvi1-sOeULpF9B5ctw4FxCaF/exec" method="POST">
+        <form id="myForm" action="https://script.google.com/macros/s/AKfycby5RAy8n11Z840EY9eGi3l9mtAwW0I9Lspy_j142ggmyvi1-sOeULpF9B5ctw4FxCaF/exec" method="POST" onsubmit="handleSubmit(event)">
             
             <label for="emailField"><b>XO Email *</b></label><br>
             <input type="text" id="emailField" name="emailAddress" required><br><br>
@@ -132,6 +164,10 @@
             
             <input type="submit" value="Submit" class="submit-button" disabled>
         </form>
+
+        <!-- Loading spinner -->
+        <div class="loading-spinner"></div>
+
         <div class="footer">
             Created by:<br>Ralph Lawrence Villamor  |  Team Lead - NBA<br><br>
         </div>
